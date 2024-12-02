@@ -183,6 +183,10 @@ class TelenorMMChannel
             return null;
         }
 
+        // 成功使用後立即移除 authorization code
+        Cache::forget('telenor_mm_authorization_code');
+        $this->logDebug('Authorization code removed from cache after successful use');
+
         $data = $response->json();
 
         if (empty($data['accessToken'])) {
