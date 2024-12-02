@@ -22,7 +22,7 @@ This package makes it easy to send notifications via [Telenor MM](https://www.li
 You can install this package via Composer:
 
 ```bash
-composer require laravel-notification-channels/telenor-mm
+composer require wacky159/laravel-notification-channel-telenor-mm
 ```
 
 ## Configuration
@@ -30,7 +30,7 @@ composer require laravel-notification-channels/telenor-mm
 ### Publish Configuration
 
 ```bash
-php artisan vendor:publish --provider="NotificationChannels\TelenorMM\TelenorMMServiceProvider"
+php artisan vendor:publish --provider="Wacky159\TelenorMM\TelenorMMServiceProvider"
 ```
 
 ### Environment Variables
@@ -57,9 +57,9 @@ TELENOR_MM_LOG_CHANNEL=stack
 ### Create a Notification
 
 ```php
-use NotificationChannels\TelenorMM\TelenorMMChannel;
-use NotificationChannels\TelenorMM\TelenorMMMessage;
-use NotificationChannels\TelenorMM\Enums\MessageType;
+use Wacky159\TelenorMM\TelenorMMChannel;
+use Wacky159\TelenorMM\TelenorMMMessage;
+use Wacky159\TelenorMM\Enums\MessageType;
 
 class InvoicePaid extends Notification
 {
@@ -122,7 +122,7 @@ $user->notify(new InvoicePaid());
 ### Receiver Type Examples
 
 ```php
-use NotificationChannels\TelenorMM\Enums\ReceiverType;
+use Wacky159\TelenorMM\Enums\ReceiverType;
 
 // Use international number as receiver (default)
 $message->receiver('+886912345678', ReceiverType::INTERNATIONAL);
@@ -144,7 +144,7 @@ $message
 Use MessageType enum to specify message type:
 
 ```php
-use NotificationChannels\TelenorMM\Enums\MessageType;
+use Wacky159\TelenorMM\Enums\MessageType;
 
 $message->type(MessageType::TEXT);    // Text message
 $message->type(MessageType::BINARY);  // Binary message
