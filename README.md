@@ -169,7 +169,7 @@ composer test
 
 ## Security
 
-If you discover any security-related issues, please email [your-email@example.com](mailto:your-email@example.com) instead of using the issue tracker.
+If you discover any security-related issues, please email [wacky159@gmail.com](mailto:wacky159@gmail.com) instead of using the issue tracker.
 
 ## Contributing
 
