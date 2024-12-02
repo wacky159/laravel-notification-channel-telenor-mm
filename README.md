@@ -52,6 +52,39 @@ TELENOR_MM_LOG_ENABLED=false
 TELENOR_MM_LOG_CHANNEL=stack
 ```
 
+### Callback Setup
+
+You need to implement a callback endpoint to handle the authorization response from Telenor MM. Here's an example:
+
+```php
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Wacky159\TelenorMM\Traits\HandleTelenorAuthorization;
+
+class TelenorAuthController extends Controller
+{
+    use HandleTelenorAuthorization;
+
+    public function callback(Request $request)
+    {
+        return $this->handleTelenorCallback($request);
+    }
+}
+```
+
+Then add the route in your `routes/web.php`:
+
+```php
+Route::get('telenor/callback', [TelenorAuthController::class, 'callback'])->name('telenor.callback');
+```
+
+Make sure to set the `TELENOR_MM_CALLBACK_URL` in your `.env` file to match this route:
+
+```env
+TELENOR_MM_CALLBACK_URL=https://your-domain.com/telenor/callback
+```
+
 ## Usage
 
 ### Create a Notification
