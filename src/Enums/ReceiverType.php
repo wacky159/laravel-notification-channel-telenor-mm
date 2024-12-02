@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace NotificationChannels\TelenorMM\Enums;
+namespace Wacky159\TelenorMM\Enums;
 
 enum ReceiverType: int
 {

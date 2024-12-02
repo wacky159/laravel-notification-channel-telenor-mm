@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace NotificationChannels\TelenorMM;
+namespace Wacky159\TelenorMM;
 
-use NotificationChannels\TelenorMM\Enums\MessageType;
-use NotificationChannels\TelenorMM\Enums\ReceiverType;
-use NotificationChannels\TelenorMM\Enums\SenderType;
+use Wacky159\TelenorMM\Enums\MessageType;
+use Wacky159\TelenorMM\Enums\ReceiverType;
+use Wacky159\TelenorMM\Enums\SenderType;
 
 class TelenorMMMessage
 {
@@ -93,7 +93,7 @@ class TelenorMMMessage
         }
 
         $requiredCharacteristics = ['UserName', 'Password'];
-        $existingCharacteristics = collect($this->characteristic)->pluck('name')->all();
+        $existingCharacteristics = array_column($this->characteristic, 'name');
 
         foreach ($requiredCharacteristics as $required) {
             if (!in_array($required, $existingCharacteristics)) {
@@ -114,7 +114,7 @@ class TelenorMMMessage
         }
 
         foreach ($this->receiver as $receiver) {
-            if (empty($receiver['@type'])) {
+            if (empty($receiver['@type']) && $receiver['@type'] !== ReceiverType::UNKNOWN->value) {
                 throw new \InvalidArgumentException('Receiver type cannot be empty');
             }
 

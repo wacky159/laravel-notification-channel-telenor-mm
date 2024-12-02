@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace NotificationChannels\TelenorMM;
+namespace Wacky159\TelenorMM;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Notifications\ChannelManager;
 use Illuminate\Support\Facades\Notification;
-use NotificationChannels\TelenorMM\Contracts\AuthorizationCodeProvider;
-use NotificationChannels\TelenorMM\Support\DefaultAuthorizationCodeProvider;
+use Wacky159\TelenorMM\Contracts\AuthorizationCodeProvider;
+use Wacky159\TelenorMM\Support\DefaultAuthorizationCodeProvider;
 
 /**
  * TelenorMM notification channel service provider

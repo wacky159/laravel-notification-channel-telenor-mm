@@ -1,13 +1,13 @@
 <?php
 
-namespace NotificationChannels\TelenorMM;
+namespace Wacky159\TelenorMM;
 
-use NotificationChannels\TelenorMM\Exceptions\CouldNotSendNotification;
+use Wacky159\TelenorMM\Exceptions\CouldNotSendNotification;
 use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
-use NotificationChannels\TelenorMM\Contracts\AuthorizationCodeProvider;
-use NotificationChannels\TelenorMM\Support\HasDebugLog;
+use Wacky159\TelenorMM\Contracts\AuthorizationCodeProvider;
+use Wacky159\TelenorMM\Support\HasDebugLog;
 use Illuminate\Http\Client\Response;
 
 class TelenorMMChannel
@@ -61,8 +61,11 @@ class TelenorMMChannel
                     'error' => $e->getMessage()
                 ]);
 
-                if ($tries === $maxTries) {
-                    $this->logDebug('Max retry attempts reached', ['max_tries' => $maxTries]);
+                if ($tries >= $maxTries || $maxTries === 1) {
+                    $this->logDebug('Max retry attempts reached or no retry configured', [
+                        'max_tries' => $maxTries,
+                        'current_try' => $tries
+                    ]);
                     throw $e;
                 }
 
@@ -76,6 +79,8 @@ class TelenorMMChannel
                 sleep($delay);
             }
         } while ($tries < $maxTries);
+
+        return [];
     }
 
     protected function sendMessage(TelenorMMMessage $message): array

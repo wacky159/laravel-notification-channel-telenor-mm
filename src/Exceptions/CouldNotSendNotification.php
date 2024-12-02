@@ -1,6 +1,6 @@
 <?php
 
-namespace NotificationChannels\TelenorMM\Exceptions;
+namespace Wacky159\TelenorMM\Exceptions;
 
 class CouldNotSendNotification extends \Exception
 {

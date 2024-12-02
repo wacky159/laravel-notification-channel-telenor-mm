@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace NotificationChannels\TelenorMM\Support;
+namespace Wacky159\TelenorMM\Support;
 
 use Illuminate\Support\Facades\Log;
 

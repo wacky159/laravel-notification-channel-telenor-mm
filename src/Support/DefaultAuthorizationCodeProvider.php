@@ -1,8 +1,8 @@
 <?php
 
-namespace NotificationChannels\TelenorMM\Support;
+namespace Wacky159\TelenorMM\Support;
 
-use NotificationChannels\TelenorMM\Contracts\AuthorizationCodeProvider;
+use Wacky159\TelenorMM\Contracts\AuthorizationCodeProvider;
 use Illuminate\Support\Facades\Cache;
 
 class DefaultAuthorizationCodeProvider implements AuthorizationCodeProvider

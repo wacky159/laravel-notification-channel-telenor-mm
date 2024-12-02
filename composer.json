@@ -13,9 +13,9 @@
     ],
     "authors": [
         {
-            "name": "Henry",
-            "email": "henry@mail.com",
-            "homepage": "https://mail.com",
+            "name": "Henry Chu",
+            "email": "wacky159@gmail.com",
+            "homepage": "https://google.com",
             "role": "Developer"
         }
     ],
@@ -28,6 +28,8 @@
         "mockery/mockery": "^1.0",
         "phpunit/phpunit": "^10.0"
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Wacky159\\TelenorMM\\": "src"

@@ -1,6 +1,6 @@
 <?php
 
-namespace NotificationChannels\TelenorMM\Traits;
+namespace Wacky159\TelenorMM\Traits;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;

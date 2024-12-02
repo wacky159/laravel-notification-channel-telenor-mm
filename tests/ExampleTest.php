@@ -1,6 +1,6 @@
 <?php
 
-namespace NotificationChannels\:channel_namespace\Test;
+namespace Wacky159\TelenorMM\Test;
 
 use PHPUnit\Framework\TestCase;
 

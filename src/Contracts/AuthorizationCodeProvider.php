@@ -1,6 +1,6 @@
 <?php
 
-namespace NotificationChannels\TelenorMM\Contracts;
+namespace Wacky159\TelenorMM\Contracts;
 
 interface AuthorizationCodeProvider
 {
