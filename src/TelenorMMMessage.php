@@ -7,9 +7,12 @@ namespace Wacky159\TelenorMM;
 use Wacky159\TelenorMM\Enums\MessageType;
 use Wacky159\TelenorMM\Enums\ReceiverType;
 use Wacky159\TelenorMM\Enums\SenderType;
+use Wacky159\TelenorMM\Support\HasSpecialCharacterConversion;
 
 class TelenorMMMessage
 {
+    use HasSpecialCharacterConversion;
+
     /** @var MessageType */
     protected $type = MessageType::TEXT->value;
 
@@ -35,7 +38,12 @@ class TelenorMMMessage
 
     public function content($content)
     {
-        $this->content = $content;
+        $this->content = match ($this->type) {
+            MessageType::TEXT->value => $this->convertSpecialCharacters($content),
+            MessageType::MULTILINGUAL->value => bin2hex(mb_convert_encoding($content, 'UTF-16')),
+            default => $content
+        };
+
         return $this;
     }
 

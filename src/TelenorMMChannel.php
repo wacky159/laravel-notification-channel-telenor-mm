@@ -114,11 +114,16 @@ class TelenorMMChannel
         $responseBody = $response->json();
 
         throw match($responseBody['code'] ?? '') {
-            '400.032.001' => CouldNotSendNotification::invalidContent($responseBody),
-            '400.032.002' => CouldNotSendNotification::invalidSenderName($responseBody),
-            '400.032.005' => CouldNotSendNotification::invalidPhoneNumber($responseBody),
-            '401.000.2001' => CouldNotSendNotification::invalidAccessToken($responseBody),
-            '429' => CouldNotSendNotification::rateLimitExceeded($responseBody),
+            '400.032.201' => CouldNotSendNotification::invalidCredentials($responseBody),
+            '400.032.203' => CouldNotSendNotification::invalidSenderName($responseBody),
+            '400.032.204' => CouldNotSendNotification::smscInternalDisconnect($responseBody),
+            '400.032.207', '400.032.208' => CouldNotSendNotification::contentLengthExceeded($responseBody),
+            '400.032.222' => CouldNotSendNotification::chunksExceeded($responseBody),
+            '403.032.001' => CouldNotSendNotification::accessDenied($responseBody),
+            '500.032.001' => CouldNotSendNotification::systemError($responseBody),
+            '503.032.001' => CouldNotSendNotification::serviceUnavailable($responseBody),
+            '429.032.001' => CouldNotSendNotification::spikeArrestViolation($responseBody),
+            '429.032.002' => CouldNotSendNotification::quotaLimitExceeded($responseBody),
             default => CouldNotSendNotification::serviceRespondedWithAnError($responseBody)
         };
     }
