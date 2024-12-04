@@ -2,22 +2,13 @@
 
 if (!function_exists('convert_special_characters')) {
     /**
-     * Convert special characters to their URL-encoded equivalents
+     * Create a special character converter instance
      *
      * @param string $content The string to convert
-     * @param array<string, string>|null $mapping Optional custom character mapping
-     * @return string
+     * @return \Wacky159\TelenorMM\Support\SpecialCharacterConverter
      */
-    function convert_special_characters(string $content, ?array $mapping = null): string
+    function convert_special_characters(string $content): \Wacky159\TelenorMM\Support\SpecialCharacterConverter
     {
-        $converter = new class {
-            use \Wacky159\TelenorMM\Support\HasSpecialCharacterConversion;
-        };
-
-        if ($mapping !== null) {
-            $converter->setSpecialCharacterMapping($mapping);
-        }
-
-        return $converter->convertSpecialCharacters($content);
+        return new \Wacky159\TelenorMM\Support\SpecialCharacterConverter($content);
     }
 }
