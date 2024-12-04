@@ -36,10 +36,17 @@ class TelenorMMMessage
 
     public function __construct() {}
 
-    public function content($content)
+    /**
+     * Set the message content
+     *
+     * @param string $content The message content
+     * @param bool $encode Whether to encode special characters (only applies to TEXT type messages)
+     * @return $this
+     */
+    public function content(string $content, bool $encode = true): self
     {
         $this->content = match ($this->type) {
-            MessageType::TEXT->value => $this->convertSpecialCharacters($content),
+            MessageType::TEXT->value => $encode ? $this->convertSpecialCharacters($content) : $content,
             MessageType::MULTILINGUAL->value => bin2hex(mb_convert_encoding($content, 'UTF-16')),
             default => $content
         };

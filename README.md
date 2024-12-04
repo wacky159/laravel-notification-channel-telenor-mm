@@ -12,6 +12,7 @@ This package makes it easy to send notifications via [Telenor MM](https://www.li
 - [Configuration](#configuration)
 - [Usage](#usage)
 - [Available Methods](#available-methods)
+- [Special Character Conversion](#special-character-conversion)
 - [Testing](#testing)
 - [Security](#security)
 - [Contributing](#contributing)
@@ -140,7 +141,7 @@ $user->notify(new InvoicePaid());
 
 ### TelenorMMMessage
 
-- `content($message)`: Set message content
+- `content($message, $encode = true)`: Set message content. The second parameter `$encode` is optional and defaults to `true`. If set to `false`, special characters will not be automatically encoded.
 - `type($type)`: Set message type (TEXT, BINARY, MULTILINGUAL, FLASH)
 - `sender($name, $type = 5)`: Set sender name and type
 - `receiver($phoneNumber, $type = 1)`: Set receiver phone number and type
@@ -192,6 +193,90 @@ Enable debug logging:
 ```env
 TELENOR_MM_LOG_ENABLED=true
 TELENOR_MM_LOG_CHANNEL=daily
+```
+
+## Special Character Conversion
+
+This package provides a helper function to handle special character conversion for SMS messages. You can use it in several ways:
+
+### Basic Usage
+
+```php
+// Basic conversion with default character mapping
+$converted = convert_special_characters('Hello World!')->convert();
+
+// Using string casting
+$converted = (string) convert_special_characters('Hello World!');
+```
+
+### Custom Character Mapping
+
+You can customize the character mapping using the fluent interface:
+
+```php
+// Custom mapping for specific characters
+$converted = convert_special_characters('Hello World!')
+    ->map([
+        ' ' => '_',
+        '!' => '-EXCLAIM-'
+    ])
+    ->convert();
+```
+
+### Using in Your Notification
+
+```php
+public function toTelenorMM($notifiable)
+{
+    return TelenorMMMessage::create()
+        ->content('Hello World! Special chars: @#$%')
+        ->type(MessageType::TEXT);
+}
+```
+
+### Extending the Converter
+
+You can also extend the conversion logic by creating your own converter class:
+
+```php
+use Wacky159\TelenorMM\Support\HasSpecialCharacterConversion;
+
+class MyCustomConverter
+{
+    use HasSpecialCharacterConversion;
+
+    public function __construct()
+    {
+        // Define your custom mapping
+        $this->setSpecialCharacterMapping([
+            '@' => '[at]',
+            '#' => '[hash]'
+        ]);
+    }
+
+    // Optionally override the conversion logic
+    public function convertSpecialCharacters(string $content): string
+    {
+        // Your custom conversion logic here
+        return parent::convertSpecialCharacters($content);
+    }
+}
+```
+
+### Automatic Encoding in TelenorMMMessage
+
+By default, `TelenorMMMessage::content()` will automatically encode special characters for TEXT type messages. You can disable this behavior by passing `false` as the second parameter: `->content($message, false)`.
+
+```php
+public function toTelenorMM($notifiable)
+{
+    return TelenorMMMessage::create()
+        // Default behavior: automatically encode special characters
+        ->content('Hello World! Special chars: @#$%')
+        // Or disable automatic encoding
+        ->content('Hello World! Special chars: @#$%', false)
+        ->type(MessageType::TEXT);
+}
 ```
 
 ## Testing
