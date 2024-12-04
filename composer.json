@@ -27,18 +27,21 @@
         "mockery/mockery": "^1.0",
         "phpunit/phpunit": "^10.0"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "Wacky159\\TelenorMM\\": "src"
-        }
+        },
+        "files": [
+            "src/Support/helpers.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
             "Wacky159\\TelenorMM\\Test\\": "tests"
         }
     },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "scripts": {
         "test": "phpunit",
         "test:coverage": "phpunit --coverage-text --coverage-clover=coverage.clover"

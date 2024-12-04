@@ -6,7 +6,7 @@ namespace Wacky159\TelenorMM\Support;
 
 trait HasSpecialCharacterConversion
 {
-    protected function convertSpecialCharacters(string $content): string
+    public function convertSpecialCharacters(string $content): string
     {
         $specialChars = [
             "\n" => '%0A',   // new line
@@ -46,4 +46,4 @@ trait HasSpecialCharacterConversion
 
         return strtr($content, $specialChars);
     }
-} 
+}
