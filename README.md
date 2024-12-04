@@ -1,8 +1,8 @@
 # Laravel Telenor MM Notification Channel
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/laravel-notification-channels/telenor-mm.svg?style=flat-square)](https://packagist.org/packages/laravel-notification-channels/telenor-mm)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/wacky159/laravel-notification-channel-telenor-mm.svg?style=flat-square)](https://packagist.org/packages/wacky159/laravel-notification-channel-telenor-mm)
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Total Downloads](https://img.shields.io/packagist/dt/laravel-notification-channels/telenor-mm.svg?style=flat-square)](https://packagist.org/packages/laravel-notification-channels/telenor-mm)
+[![Total Downloads](https://img.shields.io/packagist/dt/wacky159/laravel-notification-channel-telenor-mm.svg?style=flat-square)](https://packagist.org/packages/wacky159/laravel-notification-channel-telenor-mm)
 
 This package makes it easy to send notifications via [Telenor MM](https://www.linkedin.com/company/telenor-group/) (now known as ATOM in Myanmar) with Laravel 10.x.
 
