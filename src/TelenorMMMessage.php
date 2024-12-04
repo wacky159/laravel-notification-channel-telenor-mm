@@ -66,17 +66,31 @@ class TelenorMMMessage
         return $this;
     }
 
-    public function sender(string $name, ?int $type = SenderType::ALPHANUMERIC->value): self
+    /**
+     * Set the sender information
+     *
+     * @param string $name Sender name
+     * @param int|string|null $type Sender type
+     * @return $this
+     */
+    public function sender(string $name, int|string|null $type = SenderType::ALPHANUMERIC->value): self
     {
         $this->sender['name'] = $name;
-        $this->sender['@type'] = $type;
+        $this->sender['@type'] = (string) $type;
         return $this;
     }
 
-    public function receiver(string $phoneNumber, ?int $type = ReceiverType::INTERNATIONAL->value): self
+    /**
+     * Add a receiver
+     *
+     * @param string $phoneNumber Receiver phone number
+     * @param int|string|null $type Receiver type
+     * @return $this
+     */
+    public function receiver(string $phoneNumber, int|string|null $type = ReceiverType::INTERNATIONAL->value): self
     {
         $this->receiver[] = [
-            '@type' => $type,
+            '@type' => (string) $type,
             'phoneNumber' => $phoneNumber
         ];
         return $this;
