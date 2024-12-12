@@ -8,15 +8,15 @@ This package makes it easy to send notifications via [Telenor MM](https://www.li
 
 ## Contents
 
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [Available Methods](#available-methods)
-- [Special Character Conversion](#special-character-conversion)
-- [Testing](#testing)
-- [Security](#security)
-- [Contributing](#contributing)
-- [License](#license)
+-   [Installation](#installation)
+-   [Configuration](#configuration)
+-   [Usage](#usage)
+-   [Available Methods](#available-methods)
+-   [Special Character Conversion](#special-character-conversion)
+-   [Testing](#testing)
+-   [Security](#security)
+-   [Contributing](#contributing)
+-   [License](#license)
 
 ## Installation
 
@@ -91,26 +91,30 @@ TELENOR_MM_CALLBACK_URL=https://your-domain.com/telenor/callback
 ### Create a Notification
 
 ```php
-use Wacky159\TelenorMM\TelenorMMChannel;
-use Wacky159\TelenorMM\TelenorMMMessage;
-use Wacky159\TelenorMM\Enums\MessageType;
 
-class InvoicePaid extends Notification
+class TestNotification extends Notification
 {
-    public function via($notifiable)
+    public function toTelenorMM($notifiable): ?TelenorMMMessage
     {
-        return [TelenorMMChannel::class];
-    }
+        // Get phone number from routes array (for Notification::route usage)
+        // or from the notifiable model
+        $phoneNumber = $notifiable->routes['telenorMM']
+            ?? $notifiable->routeNotificationForTelenorMM();
 
-    public function toTelenorMM($notifiable)
-    {
-        return (new TelenorMMMessage)
-            ->content('Your invoice has been paid!')
+        // Remove '+' prefix from phone number
+        $phoneNumber = ltrim($phoneNumber, '+');
+
+        if (empty($phoneNumber)) {
+            return null;
+        }
+
+        return (new TelenorMMMessage())
+            ->content('Hello World!')
             ->type(MessageType::TEXT)
+            ->sender('YourApp', SenderType::ALPHANUMERIC->value)
             ->characteristic('UserName', 'your-username')
             ->characteristic('Password', 'your-password')
-            ->sender('YourApp')
-            ->receiver($notifiable->phone);
+            ->receiver($phoneNumber, ReceiverType::INTERNATIONAL->value);
     }
 }
 ```
@@ -122,36 +126,38 @@ When creating a TelenorMMMessage, the following fields are required:
 1. `content`: Message content
 2. `type`: Message type
 3. `characteristic`: Must include these two characteristics
-   - `UserName`: Username
-   - `Password`: Password
-4. `sender`: 
-   - `name`: Sender name
-   - `@type`: Sender type
+    - `UserName`: Username
+    - `Password`: Password
+4. `sender`:
+    - `name`: Sender name
+    - `@type`: Sender type
 5. `receiver`: At least one receiver, and each receiver must include
-   - `phoneNumber`: Receiver phone number
-   - `@type`: Receiver type
+    - `phoneNumber`: Receiver phone number
+    - `@type`: Receiver type
 
 ### Send Notification
 
 ```php
-$user->notify(new InvoicePaid());
+$user->notify(new TestNotification());
+
+\Illuminate\Support\Facades\Notification::route('telenorMM', 'customer-phone-number')->notify(new TestNotification);
 ```
 
 ## Available Methods
 
 ### TelenorMMMessage
 
-- `content($message, $encode = true)`: Set message content. The second parameter `$encode` is optional and defaults to `true`. If set to `false`, special characters will not be automatically encoded.
-- `type($type)`: Set message type (TEXT, BINARY, MULTILINGUAL, FLASH)
-- `sender($name, $type = 5)`: Set sender name and type
-- `receiver($phoneNumber, $type = 1)`: Set receiver phone number and type
-  - `$type = 0`: Unknown type
-  - `$type = 1`: International number (default)
-  - `$type = 2`: National number
-  - `$type = 3`: Network specific number
-  - `$type = 4`: Subscriber number
-  - `$type = 5`: Alphanumeric
-  - `$type = 6`: Short code
+-   `content($message, $encode = true)`: Set message content. The second parameter `$encode` is optional and defaults to `true`. If set to `false`, special characters will not be automatically encoded.
+-   `type($type)`: Set message type (TEXT, BINARY, MULTILINGUAL, FLASH)
+-   `sender($name, $type = 5)`: Set sender name and type
+-   `receiver($phoneNumber, $type = 1)`: Set receiver phone number and type
+    -   `$type = 0`: Unknown type
+    -   `$type = 1`: International number (default)
+    -   `$type = 2`: National number
+    -   `$type = 3`: Network specific number
+    -   `$type = 4`: Subscriber number
+    -   `$type = 5`: Alphanumeric
+    -   `$type = 6`: Short code
 
 ### Receiver Type Examples
 
